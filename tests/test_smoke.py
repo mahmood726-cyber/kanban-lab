@@ -31,3 +31,17 @@ def test_repository_smoke():
         for pattern in ('*.py', '*.R', '*.html', '*.js', '*.ts'):
             candidates.extend(base.glob(pattern))
     assert candidates
+
+
+def test_static_app_shell_contract():
+    root = Path(__file__).resolve().parents[1]
+    html = (root / 'index.html').read_text(encoding='utf-8')
+
+    assert '<title>Kanban Lab</title>' in html
+    assert 'Persistent drag-and-drop kanban board' in html
+    assert 'localStorage' in html
+    assert 'dragstart' in html
+    assert 'Add Card' in html
+    assert '{{' not in html
+    assert 'C:\\' not in html
+    assert 'D:\\' not in html
